@@ -167,3 +167,10 @@ integration_test/screenshots/
 *.temp
 *.lock
 pubspec.lock
+
+# Screenshots (keep structure but allow actual images)
+screenshots/*.md
+!screenshots/README.md
+# Uncomment the line below if you want to exclude all screenshots
+# screenshots/*.png
+# screenshots/*.jpg

@@ -1,5 +1,19 @@
 # 📍 Favorite Places
 
+<div align="center">
+
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
+![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+![iOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)
+
+[![GitHub stars](https://img.shields.io/github/stars/mahmoudasal/Flutter_Favorite_places?style=social)](https://github.com/mahmoudasal/Flutter_Favorite_places/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/mahmoudasal/Flutter_Favorite_places?style=social)](https://github.com/mahmoudasal/Flutter_Favorite_places/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/mahmoudasal/Flutter_Favorite_places)](https://github.com/mahmoudasal/Flutter_Favorite_places/issues)
+[![GitHub license](https://img.shields.io/github/license/mahmoudasal/Flutter_Favorite_places)](https://github.com/mahmoudasal/Flutter_Favorite_places/blob/main/LICENSE)
+
+</div>
+
 A beautiful, feature-rich Flutter application for managing and storing your favorite locations with images, GPS coordinates, and detailed information.
 
 ## ✨ Features
@@ -26,7 +40,37 @@ A beautiful, feature-rich Flutter application for managing and storing your favo
 
 ## 📱 Screenshots
 
-[Add screenshots of your app here]
+### Main Features Overview
+
+<div align="center">
+
+| Places List | Add New Place | Location Selection |
+|:-----------:|:-------------:|:-----------------:|
+| ![Places List](screenshots/places_list.png) | ![Add Place](screenshots/add_place_filled.png) | ![Location Selection](screenshots/location_picker.png) |
+| *Main screen showing saved favorite places* | *Form to add a new place with image and location* | *Interactive location selection with GPS* |
+
+| Empty State | Image Selection | Place Details |
+|:-----------:|:---------------:|:-------------:|
+| ![Empty State](screenshots/empty_state.png) | ![Image Picker](screenshots/image_picker.png) | ![Place Detail](screenshots/place_detail.png) |
+| *Helpful empty state with guidance* | *Camera and gallery options* | *Detailed view of a saved place* |
+
+</div>
+
+### Key Features Demonstrated
+
+- **🏠 Places List**: Clean, modern interface showing all favorite places
+- **➕ Add Place**: Intuitive form with image capture and location selection  
+- **📍 Location Services**: GPS integration with Google Maps
+- **📷 Image Handling**: Camera and gallery integration with preview
+- **🗺️ Map Integration**: Interactive maps for location selection
+- **⚠️ Error Handling**: User-friendly error states and validation
+- **🎨 Material Design**: Modern UI following Material Design 3 principles
+
+> **Note**: To add screenshots, run the app with your API key and capture screens:
+> ```bash
+> flutter run --dart-define=GOOGLE_MAPS_API_KEY=your_key
+> ```
+> Then add screenshots to the `screenshots/` folder and they'll appear here automatically.
 
 ## 🚀 Getting Started
 
@@ -161,6 +205,35 @@ flutter build apk --release
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+### 📸 Contributing Screenshots
+
+To help improve the documentation:
+
+1. **Run the app** with your API key:
+   ```bash
+   flutter run --dart-define=GOOGLE_MAPS_API_KEY=your_key
+   ```
+
+2. **Capture screenshots** of:
+   - Main places list (with and without data)
+   - Add place form (empty and filled)
+   - Image selection dialog
+   - Location picker interface
+   - Error states and loading indicators
+   - Place detail views
+
+3. **Optimize images**:
+   - Resize to reasonable dimensions (max 800px width)
+   - Compress to keep file sizes under 500KB
+   - Use PNG for UI screenshots, JPG for photos
+
+4. **Save to screenshots folder** with descriptive names:
+   - `places_list_with_data.png`
+   - `add_place_form_empty.png`
+   - `location_picker_loading.png`
+
+5. **Update README.md** if adding new screenshot categories
 
 ## 📄 License
 
