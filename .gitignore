@@ -43,3 +43,127 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Web related
+/web/
+
+# Windows related
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+.target/
+.metadata
+.classpath
+.project
+.externalToolBuilders/
+*.launch
+.factorypath
+.buildpath
+.target
+.sts4-cache/
+
+# macOS related
+*.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux related
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# API Keys and Environment Variables
+.env
+.env.local
+.env.*.local
+*.env
+api_keys.dart
+secrets.dart
+firebase_options.dart
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Generated files
+*.g.dart
+*.freezed.dart
+*.gr.dart
+*.config.dart
+
+# Coverage reports
+coverage/
+lcov.info
+
+# Firebase
+.firebase/
+firebase-debug.log
+.firebaserc
+
+# iOS specific
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/ServiceDefinitions.json
+ios/Runner/GoogleService-Info.plist
+
+# Android specific
+android/app/google-services.json
+android/key.properties
+android/app/upload-keystore.jks
+android/gradle.properties
+android/local.properties
+
+# Test related
+test_driver/
+integration_test/screenshots/
+.test_coverage.dart
+
+# Temporary files
+*.tmp
+*.temp
+*.lock
+pubspec.lock

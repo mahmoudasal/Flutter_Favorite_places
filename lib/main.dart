@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:favorite_places/screens/places.dart';
+import 'package:favorite_places/widgets/error_boundary.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
@@ -39,9 +40,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Great Places',
+      title: 'Favorite Places',
       theme: theme,
-      home: const PlacesScreen(),
+      home: ErrorBoundary(
+        errorTitle: 'App Error',
+        errorMessage: 'The app encountered an unexpected error.',
+        child: const PlacesScreen(),
+      ),
     );
   }
 }

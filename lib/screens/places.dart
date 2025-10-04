@@ -37,18 +37,81 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen>{
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (ctx) => const AddPlaceScreen()),
-              );
+            onPressed: () async {
+              try {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(builder: (ctx) => const AddPlaceScreen()),
+                );
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Error opening add place screen: ${e.toString()}'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
             },
           ),
         ],
       ),
       body: FutureBuilder(
         future: _placesFuture,
-        builder: (context, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting ? const Center(child: CircularProgressIndicator()) : PlacesList(places: userPlaces)
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16),
+                  Text('Loading your places...'),
+                ],
+              ),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 64,
+                    color: Colors.red[400],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Failed to load places',
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      color: Colors.red[700],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    snapshot.error.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey[600]),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        _placesFuture = ref.read(userPlacesProvider.notifier).loadPlaces();
+                      });
+                    },
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Retry'),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          return PlacesList(places: userPlaces);
+        },
       ),
     );
   }

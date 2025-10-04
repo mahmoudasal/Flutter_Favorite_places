@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:favorite_places/models/place.dart';
 import 'package:favorite_places/screens/map.dart';
+import 'package:favorite_places/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -23,7 +24,7 @@ class _LocationInputState extends State<LocationInput> {
 
   Future<void> _savePlace(double? latitude, double? longtitude) async {
     final url = Uri.parse(
-      "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longtitude&key=AIzaSyBNFIewGVFrRzsozu7Xi9SN7JPZ6lUfX2M",
+      AppConstants.geocodingApiUrl(latitude!, longtitude!),
     );
 
     String address = '';
@@ -48,8 +49,8 @@ class _LocationInputState extends State<LocationInput> {
 
     setState(() {
       _pickedLocation = PlaceLocation(
-        latitude: latitude!,
-        longtitude: longtitude!,
+        latitude: latitude,
+        longtitude: longtitude,
         address: address,
       );
       _isGettingLocation = false;
@@ -65,50 +66,71 @@ class _LocationInputState extends State<LocationInput> {
 
     final lat = _pickedLocation!.latitude;
     final lng = _pickedLocation!.longtitude;
-    return "https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng=&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=AIzaSyBNFIewGVFrRzsozu7Xi9SN7JPZ6lUfX2M";
+    return AppConstants.staticMapUrl(lat, lng);
   }
 
-  void _getCurrentLocation() async {
-    Location location = Location();
+  void _showErrorSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 4),
+        ),
+      );
+    }
+  }
 
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-    LocationData locationData;
+  Future<void> _getCurrentLocation() async {
+    try {
+      setState(() {
+        _isGettingLocation = true;
+      });
 
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
+      final location = Location();
+
+      // Check and request location service
+      bool serviceEnabled = await location.serviceEnabled();
       if (!serviceEnabled) {
+        serviceEnabled = await location.requestService();
+        if (!serviceEnabled) {
+          _showErrorSnackBar('Location service is disabled. Please enable it in settings.');
+          return;
+        }
+      }
+
+      // Check and request location permission
+      PermissionStatus permissionGranted = await location.hasPermission();
+      if (permissionGranted == PermissionStatus.denied) {
+        permissionGranted = await location.requestPermission();
+        if (permissionGranted != PermissionStatus.granted) {
+          _showErrorSnackBar('Location permission denied. Please grant permission to use this feature.');
+          return;
+        }
+      }
+
+      // Get current location with timeout
+      final locationData = await location.getLocation();
+
+      final lat = locationData.latitude;
+      final lng = locationData.longitude;
+
+      if (lat == null || lng == null) {
+        _showErrorSnackBar('Could not determine your location. Please try again.');
         return;
       }
-    }
 
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return;
+      await _savePlace(lat, lng);
+
+    } catch (e) {
+      _showErrorSnackBar('Failed to get current location: ${e.toString()}');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isGettingLocation = false;
+        });
       }
     }
-
-    setState(() {
-      _isGettingLocation = true;
-    });
-
-    locationData = await location.getLocation();
-
-    setState(() {
-      _isGettingLocation = false;
-    });
-
-    final lat = locationData.latitude;
-    final lng = locationData.longitude;
-
-    if (lat == null || lng == null) {
-      return;
-    }
-
-    _savePlace(lat, lng);
   }
 
   void _selectOnMap() async {
@@ -137,6 +159,26 @@ class _LocationInputState extends State<LocationInput> {
         fit: BoxFit.cover,
         width: double.infinity,
         height: double.infinity,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return const Center(child: CircularProgressIndicator());
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.location_on, size: 40, color: Colors.grey[600]),
+              const SizedBox(height: 8),
+              Text(
+                _pickedLocation!.address.isNotEmpty 
+                    ? _pickedLocation!.address 
+                    : 'Location: ${_pickedLocation!.latitude.toStringAsFixed(4)}, ${_pickedLocation!.longtitude.toStringAsFixed(4)}',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+            ],
+          );
+        },
       );
     }
 

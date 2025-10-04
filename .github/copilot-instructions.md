@@ -65,8 +65,16 @@ flutter test                     # Run unit tests
 - `google_fonts` - Typography
 - `image_picker` - Camera/gallery access (in progress)
 
+## Error Handling Patterns
+- **Custom Exceptions**: Use `PlacesException` for domain-specific errors
+- **User Feedback**: Show errors via `SnackBar` with appropriate colors (red for errors, green for success)
+- **Graceful Degradation**: Provide fallbacks for network/permission failures
+- **Logging**: Use `Logger` utility for debugging and error tracking
+- **Validation**: Validate inputs early with clear error messages
+
 ## Common Tasks
 - **Adding new screens**: Create in `lib/screens/`, use `ConsumerWidget`, implement navigation
 - **New models**: Add to `lib/models/`, use UUID for IDs
-- **State updates**: Extend notifiers in `lib/provider/`, follow immutable state pattern
+- **State updates**: Extend notifiers in `lib/providers/`, follow immutable state pattern
 - **UI components**: Create in `lib/widgets/`, make them reusable and testable
+- **Error handling**: Wrap operations in try-catch, use custom exceptions, provide user feedback
