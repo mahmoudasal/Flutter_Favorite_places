@@ -243,7 +243,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Mahmoud Asal**
 - GitHub: [@mahmoudasal](https://github.com/mahmoudasal)
-- LinkedIn: [mahmoudasal](https://linkedin.com/in/mahmoudasal)
+- LinkedIn: [mahmoudasal](https://linkedin.com/in/mahmoud-asal)
 
 ## 🙏 Acknowledgments
 
